@@ -25,9 +25,9 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 app.use(express.static("./public"));
 
 // Routes =============================================================
-require("./routes/placeholder-api-route1.js")(app);
-require("./routes/placeholder-api-route2.js")(app);
-require("./routes/placeholder-api-route3.js")(app);
+// require("./routes/placeholder-api-route1.js")(app);
+// require("./routes/placeholder-api-route2.js")(app);
+// require("./routes/placeholder-api-route3.js")(app);
 
 // Syncing our sequelize models and then starting our express app
 db.sequelize.sync({ force: true }).then(function() {
