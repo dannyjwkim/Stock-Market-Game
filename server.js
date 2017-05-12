@@ -25,7 +25,6 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 app.use(express.static("./public"));
 
 // Routes =============================================================
-// 
 require("./routes/placeholder-api-route1.js")(app);
 require("./routes/placeholder-api-route2.js")(app);
 require("./routes/placeholder-api-route3.js")(app);
