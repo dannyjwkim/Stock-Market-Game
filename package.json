@@ -18,7 +18,9 @@
   "homepage": "https://github.com/dannyjwkim/Stock-Market-Game#readme",
   "dependencies": {
     "body-parser": "^1.17.1",
+    "chai": "^3.5.0",
     "express": "^4.15.2",
+    "mocha": "^3.3.0",
     "mysql": "^2.13.0"
   }
 }
