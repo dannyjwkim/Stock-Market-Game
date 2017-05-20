@@ -1,28 +1,27 @@
 {
-  "name": "stock-market-game",
+  "name": "login",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dannyjwkim/Stock-Market-Game.git"
-  },
+  "keywords": [
+    "any",
+    "keys"
+  ],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dannyjwkim/Stock-Market-Game/issues"
-  },
-  "homepage": "https://github.com/dannyjwkim/Stock-Market-Game#readme",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "chai": "^3.5.0",
-    "express": "^4.15.2",
-    "mocha": "^3.3.0",
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
     "mysql": "^2.13.0",
+    "request": "^2.81.0",
     "sequelize": "^3.30.4",
-    "sequelize-heroku": "^1.0.0"
-  }
+    "socket.io": "^2.0.1"
+  },
+  "devDependencies": {},
+  "description": ""
 }
