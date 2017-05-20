@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Stock Market Playground</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+  </head>
+
+  <body>
+
+<div class="row">
+
+    <div class="container">
+      
+      <div class="jumbotron well well-sm text-center" id="header">
+        <h2>Stock Market Playground</h2>
+      </div>
+
+      <div class="panel panel-default">
+
+        <div class="panel-heading"><h4><span id="username">Username</span>'s Portfolio</h4></div>
+
+        <div class="panel-body">
+
+          <table class="table table-striped">
+
+            <thread>
+              <tr>
+                <th>Buying Power (Cash)</th>
+                <th>Total Stock Position</th>
+                <th>Total Portfolio Value</th>
+              </tr>
+            </thread>
+
+            <tbody id="totalPortfolio">
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel-body">
+
+          <table class="table table-striped">
+
+            <thread>
+              <tr>
+                <th>Stock</th>
+                <th>Current Price</th>
+                <th>Quantity Owned</th>
+                <th>Position</th>
+              </tr>
+            </thread>
+
+            <tbody id="portfolio">
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+
+      <div class="panel panel-default">
+
+        <div class="panel-heading">
+          <h4>Take Action</h4>
+        </div>
+
+          <div class="panel-body">
+
+            <div class="form-group">
+
+              <label for="Product">Which stock would you like to buy?</label>
+
+              <input type="text" placeholder="Choose stock by ticker symbol" class="form-control" id = "qqs">
+
+              <label for="Product">Quantity</label>
+
+              <input type="number" placeholder="How many shares would you like to purchase?" class="form-control" id = "buy">
+
+              <br>
+              
+              <button type="submit" class="btn btn-default" id="buySSS"><i class="fa fa-search"></i>Buy</button>
+
+              <hr>
+                 
+              <label for="Product">Which stock would you like to sell?</label>
+
+              <input type="text" placeholder="Choose stock by ticker symbol" class="form-control" id="Sold">
+
+              <label for="Product">Quantity</label>
+
+              <input type="text" placeholder="How many shares would you like to sell?" class="form-control" id = "Qsold">
+
+              <br>
+             
+              <button type="submit" class="btn btn-default" id="soldss"><i class="fa fa-search"></i>Sell</button>
+
+            </div>
+
+          </div>
+
+      </div>
+      
+    </div>
+
+       <!-- <div class= 'row'>
+
+     <button type="submit" class="btn btn-default" id="soke"><i class="fa fa-search"></i> socket</button>
+
+       </div> -->
+
+
+ <script type="text/javascript">
+ 
+ 
+     $.ajax({
+                   method : 'post',            
+   
+                   url: '/api/name',
+               
+                   data :  {token :sessionStorage.getItem('key') }
+               
+               
+                   }).then(function(data){
+                    
+                   $("#username").html(data.name);
+                   var timehh =  setInterval(timestart
+                  , 1000*6);
+
+
+       });   
+    
+
+
+     /* 
+      var timer =  setInterval(function () {
+       callList();
+      }, 1000*5);
+      
+      var callList = function(){
+          
+           //console.log("hello");
+          
+          var sendT ={
+           token : sessionStorage.getItem('key')
+          };
+
+
+      	  $.ajax({
+                   method : 'post',            
+   
+                   url: '/api/insidepath',
+               
+                   data : sendT
+               
+               
+                   }).then(function(data){
+                  
+                   console.log(data);
+                   
+                  // console.log(data);
+                   //sessionStorage.setItem('key', data);
+                 
+
+                
+           }); 
+        
+
+
+
+      };
+
+      
+*/    /*
+      var socketsMan = io.connect(); 
+      
+     
+
+      $("#soke").on("click", function(event) {
+            socketsMan.emit('listfirst');
+
+
+       }); 
+
+      socketsMan.on('firstlist', function (data) {
+       console.log(data);
+      });
+
+
+
+
+
+
+
+*/
+
+ 
+ $("#soke").on("click", function(event) {
+         var sendfile = {
+
+           token:  sessionStorage.getItem('key')
+         }
+
+
+        $.ajax({
+                   method : 'post',            
+   
+                   url: '/api/showOther',
+               
+                   data : sendfile
+               
+               
+                   }).then(function(data){
+
+
+
+                 });   
+    
+
+
+
+
+
+ }); 
+
+
+ 
+
+/*
+ $("#search1").on("click", function(event) {
+  
+  var timehh =  setInterval(timestart
+ , 1000*10);
+ 
+
+ // timestart();
+ });
+
+*/
+
+
+
+var timestart = function(){
+
+      var val = sessionStorage.getItem('key');
+        //console.log(val);
+        var sendfile = {
+         token:  val  
+        }
+         
+
+
+
+
+
+          $.ajax({
+                   method : 'post',            
+   
+                   url: '/api/insidepath',
+               
+                   data : sendfile
+               
+               
+                   }).then(function(data){
+
+
+                     //console.log(data);
+                  
+
+                     $.ajax({
+                       method : 'post',            
+   
+                       url: '/api/priceQ',
+               
+                       data : sendfile
+               
+               
+                       }).then(function(data2){
+                        var total =0.0;
+                         
+                        var arrayX = [] ;  
+                        //console.log(data2);
+                        //console.log(data);
+                        $("#portfolio").html("");
+                        for( var j = 0 ; j < data2.length ; j ++){
+
+                             for(var i = 0 ; i < data.length; i++ ){
+                               if( data2[j].symbol == data[i].symbol){
+
+                                    arrayX.push({
+                                      symbol : data2[j].symbol ,
+                                      price  : data[i].price,
+                                      quantity : data2[j].quantity  
+
+
+
+                                    });
+
+                                    var good = parseFloat(data[i].price) * parseFloat(data2[j].quantity);
+                                    var positionReal = parseFloat(good).toFixed( 2 );
+                                  
+                                    $("#portfolio").append(
+                                      '<tr>' +
+                                        '<td>' + data2[j].symbol + '</td>' +
+                                        '<td>' + '$' + parseFloat(data[i].price).toFixed( 2 ) + '</td>' +
+                                        '<td>' + data2[j].quantity + '</td>' +
+                                        '<td>' + '$' + positionReal + '</td>' +
+                                      '</tr>'
+                                    );        
+
+
+
+
+
+
+
+                               }   
+
+
+
+
+
+                            }  
+                       
+                        }
+
+                         for(var x = 0 ; x <arrayX.length ; x++){
+                            // console.log(arrayX[x].price);
+                             
+                            
+                             
+                             var first = parseFloat(arrayX[x].price);
+                             var Second = parseFloat(arrayX[x].quantity);
+                             var valu = first * Second; 
+                             //console.log(valu);
+                             var addition = parseFloat(valu).toFixed( 2 );  
+                             total += parseFloat(addition);
+                             //console.log(total);
+
+
+
+
+                         } 
+
+
+                            console.log(arrayX);
+                         
+
+
+
+
+                           // console.log(total);
+                            var lastAddition = total;
+                              var sendG ={
+                                 token : sessionStorage.getItem('key'),
+                                 
+                                 addit : lastAddition 
+
+                              };
+
+                                $("#totalPortfolio").html("");
+                              //console.log(sendG);
+                              $.ajax({
+                                     method : 'post',            
+                     
+                                     url: '/api/calculate',
+                                 
+                                     data : sendG
+                                 
+                                 
+                                     }).then(function(dataKKK){
+
+
+
+
+                                      console.log(dataKKK);
+
+
+
+
+                                           $("#totalPortfolio").append(
+                                              '<tr>' +
+                                                '<td>' + '$' + parseFloat(dataKKK.remain).toFixed( 2 ) + '</td>' +
+                                                '<td>' + '$' + parseFloat(dataKKK.portfolio).toFixed( 2 ) + '</td>' +
+                                                '<td>' + '$' + parseFloat(dataKKK.totalA).toFixed( 2 ) + '</td>' +
+                                              '</tr>'
+                                            ); 
+
+
+
+
+                                });      
+
+
+
+
+
+
+
+
+
+
+
+
+                    }); 
+
+
+
+
+
+
+                
+
+
+
+
+
+
+
+                   
+                  // console.log(data);
+                   //sessionStorage.setItem('key', data);
+                 
+
+                
+           }); 
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+/*
+   
+      
+       $("#search1").on("click", function(event) {
+        
+        var val = sessionStorage.getItem('key');
+        console.log(val);
+        var sendfile = {
+         token:  val	
+        }
+         
+
+
+
+
+
+          $.ajax({
+                   method : 'post',            
+   
+                   url: '/api/insidepath',
+               
+                   data : sendfile
+               
+               
+                   }).then(function(data){
+
+
+                     //console.log(data);
+                  
+
+                     $.ajax({
+                       method : 'post',            
+   
+                       url: '/api/priceQ',
+               
+                       data : sendfile
+               
+               
+                       }).then(function(data2){
+
+                        var arrayX = [] ;  
+                        //console.log(data2);
+                        //console.log(data);
+                        
+                        for( var j = 0 ; j < data2.length ; j ++){
+
+                             for(var i = 0 ; i < data.length; i++ ){
+                               if( data2[j].symbol == data[i].symbol){
+
+                                    arrayX.push({
+                                      symbol : data2[j].symbol ,
+                                      price  : data[i].price,
+                                      quantity : data2[j].quantity  
+
+
+
+                                    });
+
+
+                               }   
+
+
+
+
+
+                            }  
+                       
+                        }
+                      console.log(arrayX);
+
+
+
+                    }); 
+
+
+                
+
+
+
+
+
+
+
+                   
+                  // console.log(data);
+                   //sessionStorage.setItem('key', data);
+                 
+
+                
+           }); 
+               
+      
+       });
+
+
+*/
+
+       $("#buySSS").on("click", function(event) {
+               
+              var receiversyn =  $("#qqs").val().trim()+"";
+              var quantities =  parseInt($("#buy").val().trim()+"");
+              sessionStorage.setItem("symbol", receiversyn);
+              sessionStorage.setItem("quantitiy", quantities );
+
+
+              console.log(sessionStorage.getItem('symbol') );
+              console.log( quantities);
+
+               var sendT ={
+                token : sessionStorage.getItem('key'),
+
+                quantity : quantities,
+
+                symbol :receiversyn
+                };
+
+               $.ajax({
+                   method : 'post',            
+   
+                   url: '/api/requestQ',
+               
+                   data : sendT
+               
+               
+                   }).then(function(data){
+                       
+                       
+
+                         console.log(data);
+                         console.log(sessionStorage.getItem('symbol'));
+
+
+                         var sendSe ={
+                           money : data.money,
+
+                          quantity : sessionStorage.getItem('quantitiy'),
+
+                          symbol :sessionStorage.getItem('symbol'),
+
+                          token :  sessionStorage.getItem('key')
+                          };
+                           
+
+                         
+                         
+                         $.ajax({
+                           method : 'post',            
+           
+                           url: '/api/requestPri',
+                       
+                           data : sendSe
+                       
+                       
+                           }).then(function(gg){
+
+                            console.log(gg);
+
+                              if(gg.netprice >=  0){
+
+                                     var sendBuy ={
+                                       token : sessionStorage.getItem('key'),
+
+                                       quantity : gg.quantity,
+
+                                       symbol : gg.symbol,
+
+                                       price : gg.price
+
+                                     }
+
+
+
+                                     $.ajax({
+                                       method : 'post',            
+                       
+                                       url: '/api/buystock',
+                                   
+                                       data : sendBuy
+                                   
+                                   
+                                       }).then(function(data){
+                                            console.log (data); 
+                                  
+
+                             
+
+                                       });
+
+
+                                       var sendMon = {
+                                         token : sessionStorage.getItem('key'),
+                                         netMoney : gg.netprice,
+                                         user : gg.user
+
+
+                                       }
+                                       $.ajax({
+                                       method : 'post',            
+                       
+                                       url: '/api/updataMymoney',
+                                   
+                                       data : sendMon
+                                   
+                                   
+                                       }).then(function(end){
+
+                                  
+                                         console.log(end);
+                             
+
+                                       });
+
+
+                              } else{
+
+                                 console.log("Sorry, not enough buying power!")
+
+                              }
+
+
+                           });
+
+                          
+
+
+
+
+                    /*
+          	        $.ajax({
+                       method : 'post',            
+       
+                       url: '/api/buystock',
+                   
+                       data : sendT
+                   
+                   
+                       }).then(function(data){
+                      
+                       console.log(data);
+
+
+
+                      });
+
+                      */
+
+
+
+
+
+                   
+                  // console.log(data);
+                   //sessionStorage.setItem('key', data);
+                 
+
+                
+                 }); 
+        
+           
+
+
+
+       });	
+
+
+
+        $("#soldss").on("click", function(event) {
+              var receiversyn =  $("#Sold").val().trim()+"";
+              var quantities =  parseInt($("#Qsold").val().trim()+"");
+              console.log(receiversyn );
+              console.log( quantities);
+
+               var sendT ={
+                token : sessionStorage.getItem('key'),
+
+                quantity : quantities,
+
+                symbol : receiversyn
+                };
+
+
+                $.ajax({
+                   method : 'post',            
+   
+                   url: '/api/soldRequest',
+               
+                   data : sendT
+               
+               
+                   }).then(function(data){
+                  
+                       console.log(data);
+                       if(data == "x") {
+                         console.log("You did not purchase stock or there are not enough quantities");
+
+                       }else{
+
+
+                         // console.log("doit");
+                           var sendJJ = {
+                             token : sessionStorage.getItem('key'),
+
+                             quantity : data.quantity, 
+                            
+                             symbol : data.symbol
+                             
+
+
+
+                           }
+
+ 
+                         console.log(sendJJ);
+
+                          $.ajax({
+                               method : 'post',            
+               
+                               url: '/api/soldMoneyRequest',
+                           
+                               data : sendJJ
+                           
+                           
+                               }).then(function(dataTwo){
+
+                                console.log(dataTwo);
+                                          
+                                          var sendlast = {
+                                           token : sessionStorage.getItem('key'),
+
+                                           addition : dataTwo.addition,
+                                           
+
+                                            price : dataTwo.price
+
+
+                                         }
+
+
+                                        //console.log(sendlast);
+
+
+                                        
+                                         $.ajax({
+                                          method : 'post',            
+                       
+                                          url: '/api/updateMoneyLS',
+                                   
+                                          data : sendlast
+                                   
+                                   
+                                          }).then(function(datathree){
+                                           console.log(datathree);
+
+                                          });  
+                                         
+                               
+
+
+
+
+
+
+
+
+
+
+                              });
+
+
+                              
+
+
+
+                              $.ajax({
+                               method : 'post',            
+               
+                               url: '/api/soldStock',
+                           
+                               data :  sendJJ
+                           
+                           
+                               }).then(function(dataTwo){
+
+
+
+
+                               }); 
+
+
+
+
+
+
+                       }
+
+
+
+
+
+
+
+
+
+
+                   
+                  // console.log(data);
+                   //sessionStorage.setItem('key', data);
+                 
+
+                
+                 }); 
+        
+           
+
+
+
+       });  
+
+
+
+
+
+
+  
+    
+ 
+
+
+</script> 	
+
+
+
+</body>
+
+
+
+
+</html>
+
+
+
+  
